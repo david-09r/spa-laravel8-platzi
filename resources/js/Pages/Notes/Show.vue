@@ -16,28 +16,19 @@ import AppLayout from '@/Layouts/AppLayout.vue';
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
           <div class="md:grid md:grid-cols-3 md:gap-6">
             <div class="md:col-span-1">
-              <div class="px-4 sm:px-0">
-                <h3 class="text-lg text-gray-900">Listado de notas</h3>
-                <p class="text-sm text-gray-600">Toma el registro correcto y ejecuta cualquier funcion (ver, editar o eliminar)</p>
+              <div class="p-0 block sm:flex sm:p-4 sm:flex-col sm:justify-between sm:h-full sm:w-full">
+                <div>
+                  <h3 class="text-lg text-gray-900">Notas</h3>
+                  <p class="text-sm text-gray-600">{{ note.excerpt }}</p>
+                </div>
+                <Link class="hover:text-green-500" :href="route('notes.index')">Volver</Link>
               </div>
             </div>
             <div class="md:col-span-2 mt-5 md:mt-0">
               <div class="shadow bg-white md:rounded-md p-4">
-                <tr v-for="note in notes">
-                  <td class="border px-4 py-2">
-                    {{ note.excerpt }}
-                  </td>
-                  <td class="px-4 py-2">
-                    <Link as="button" type="button" class="hover:text-blue-500" :href="route('notes.show', note.id)">
-                      Ver
-                    </Link>
-                  </td>
-                  <td class="px-4 py-2">
-                    <Link as="button" type="button" class="hover:text-green-500" :href="route('notes.edit', note.id)">
-                      Editar
-                    </Link>
-                  </td>
-                </tr>
+                <p>{{ note.content }}</p>
+                <hr>
+
               </div>
             </div>
           </div>
@@ -56,7 +47,7 @@ export default {
   },
 
   props: {
-    notes: Object
+    note: Object
   }
 }
 </script>
