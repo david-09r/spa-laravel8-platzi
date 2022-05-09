@@ -38,6 +38,10 @@ import AppLayout from '@/Layouts/AppLayout.vue';
                     Editar
                   </button>
                 </form>
+                <hr class="my-6">
+                <a href="#" @click.prevent="destroy">
+                  Eliminar nota
+                </a>
               </div>
             </div>
           </div>
@@ -69,6 +73,11 @@ export default {
   methods: {
     submit() {
       this.$inertia.put(this.route('notes.update', this.note.id), this.form)
+    },
+    destroy() {
+      if(confirm("Desea eliminar?")){
+        this.$inertia.delete(this.route('notes.destroy', this.note.id))
+      }
     }
   }
 }

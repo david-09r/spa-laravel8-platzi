@@ -13,10 +13,12 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
        return Inertia::render('Notes/Index', [
-          'notes' => Note::latest()->get()
+          'notes' => Note::latest()
+             ->where('excerpt', 'LIKE', "%$request->q%")
+             ->get()
        ]);
     }
 
@@ -38,7 +40,14 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $request -> validate([
+          'excerpt' => 'required',
+          'content' => 'required',
+       ]);
+
+       $note = Note::create($request->all());
+
+       return redirect()->route('notes.edit', $note->id)->with('status', 'Nota Creada');
     }
 
     /**
@@ -79,7 +88,7 @@ class NoteController extends Controller
 
        $note->update($request->all());
 
-       return redirect()->route('notes.index');
+       return redirect()->route('notes.index')->with('status', 'Nota Actualizada');
     }
 
     /**
@@ -90,6 +99,8 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        //
+        $note->delete();
+
+        return redirect()->route('notes.index')->with('status', 'Nota Eliminada');
     }
 }

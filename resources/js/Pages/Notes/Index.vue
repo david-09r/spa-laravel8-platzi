@@ -23,9 +23,12 @@ import AppLayout from '@/Layouts/AppLayout.vue';
             </div>
             <div class="md:col-span-2 mt-5 md:mt-0">
               <div class="shadow bg-white md:rounded-md p-4">
-                <Link :href="route('notes.create')" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md">
-                  Crear
-                </Link>
+                <div class="flex justify-between">
+                  <Link :href="route('notes.create')" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md">
+                    Crear
+                  </Link>
+                  <input v-model="q" type="text" class="form-input rounded-md shadow-sm" placeholder="Buscar...">
+                </div>
                 <table class="mt-4">
                   <tr v-for="note in notes">
                     <td class="border px-4 py-2">
@@ -62,6 +65,16 @@ export default {
 
   props: {
     notes: Object
+  },
+  data () {
+    return {
+      q: ''
+    }
+  },
+  watch: {
+    q: function (value) {
+      this.$inertia.replace(this.route('notes.index', {q: value}))
+    }
   }
 }
 </script>
